@@ -13,7 +13,7 @@ public interface ReserveFundDetailsService {
 	public long countNUmberOfData();
 	
 	//existById, which return type is "boolean"
-	public boolean retrieveReserveFundDetailsDataById(Integer id);
+	public boolean checkReserveFundDetailsDataById(Integer id);
 	
 	//findAll() method, which return type is "Iterable<T>" (T->means Type:-any data type, Entity class...etc )
 	public Iterable<ReserveFundDetails> retrieveReserveFundDetailsAllData();

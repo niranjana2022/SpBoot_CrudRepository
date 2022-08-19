@@ -1,6 +1,7 @@
 package com.eidiko.niranjana.controller;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public class ReserveFundDetailsController {
 		boolean status = false;
 		log.info(".........existById method..............");
 		try {
-			status = service.retrieveReserveFundDetailsDataById(id);
+			status = service.checkReserveFundDetailsDataById(id);
 			return "Is Given ID " + id + " data present in DB ? " + status;
 		} catch (Exception se) {
 			se.printStackTrace();
@@ -57,9 +58,20 @@ public class ReserveFundDetailsController {
 		return list;
 	}
 // ============================findAllById method===================================================
+	//process 1:
 	@GetMapping("/fetchAllDataById/{ID}/{IDD}")
-	public Iterable<ReserveFundDetails> reserveFundDataFetchingById(@PathVariable(value = "ID") Integer id,
-			@PathVariable(value = "IDD") Integer ids) {
+	public Iterable<ReserveFundDetails> reserveFundDataFetchingById(@PathVariable(value = "ID") Integer id,@PathVariable(value = "IDD") Integer idd) {
+		log.info("------findAllById method--------");
+		Iterable<ReserveFundDetails> listDetail = service.retrieveReserveFundDetailsDataById(Arrays.asList(id,idd));
+		log.info("ReserveFundDetails data are:" + listDetail);
+		for (ReserveFundDetails lists : listDetail) {
+			log.info("Reserve_fund_Id: " + lists.getReserveFundId());
+		}
+		return listDetail;
+	}
+	//process 2:
+		@GetMapping("/fetchAllDataById1/{ID}/{IDD}")
+		public Iterable<ReserveFundDetails> reserveFundDataFetchingById1(@PathVariable(value = "ID") Integer id,@PathVariable(value = "IDD") Integer idd){
 		log.info("------findAllById method--------");
 		List<Integer> list = new ArrayList();
 		list.add(4);
@@ -67,13 +79,13 @@ public class ReserveFundDetailsController {
 		Iterable<ReserveFundDetails> listDetail = service.retrieveReserveFundDetailsDataById(list);
 		log.info("ReserveFundDetails data are:" + listDetail);
 		for (ReserveFundDetails lists : listDetail) {
-			log.info("Reserve_fund_Id: " + lists.getReserveFundId());
+				log.info("Reserve_fund_Id: " + lists.getReserveFundId());
 		}
 		return listDetail;
 	}
-//===============================================================================================	
+//=================================findById() method==============================================================	
 	@GetMapping("/fetchSpecificDataById/{id}")
-	public ResponseEntity<?> reserveFundSpecificDataFetchingById(@PathVariable Integer id) throws Exception  {
+	public ResponseEntity<?> reserveFundSpecificDataFetchingById(@PathVariable Integer id) throws EmployeeNotFoundException  {
 		log.info("------findById() method--------");
 		ReserveFundDetails retrieveReserveFundDataById = this.service.retrieveReserveFundDataById(id);
 		 return new ResponseEntity<ReserveFundDetails>(retrieveReserveFundDataById, HttpStatus.OK);

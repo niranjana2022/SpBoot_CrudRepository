@@ -27,7 +27,7 @@ public class ReserveFundDetailsServiceImpl implements ReserveFundDetailsService 
 	}
 //=================================existsById======================================	
 	@Override
-	public boolean retrieveReserveFundDetailsDataById(Integer id) {
+	public boolean checkReserveFundDetailsDataById(Integer id) {
 		return repo.existsById(id);
 		
 	}
